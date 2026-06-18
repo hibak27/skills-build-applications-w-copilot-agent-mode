@@ -5,8 +5,10 @@ import { connectDatabase, getDatabaseUri } from './config/database.js';
 const app = express();
 const port = 8000;
 const codespace = process.env.CODESPACE_NAME;
-const host = codespace ? `${codespace}-8000.githubpreview.dev` : 'localhost';
-const apiUrl = `http://${host}:${port}/api`;
+const host = codespace ? `${codespace}-8000.app.github.dev` : 'localhost';
+const apiUrl = codespace
+  ? `https://${codespace}-8000.app.github.dev/api`
+  : `http://localhost:${port}/api`;
 
 app.use(express.json());
 app.use('/api', apiRouter);

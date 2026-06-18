@@ -4,11 +4,11 @@ import { Team } from '../models/team.model.js';
 import { Activity } from '../models/activity.model.js';
 import { LeaderboardEntry } from '../models/leaderboard.model.js';
 import { Workout } from '../models/workout.model.js';
-const mongoUri = 'mongodb://127.0.0.1:27017/octofit_db';
+import { connectDatabase, getDatabaseUri } from '../config/database.js';
 async function seed() {
     console.log('Seed the octofit_db database with test data');
-    await mongoose.connect(mongoUri);
-    console.log('Connected to MongoDB for seeding:', mongoUri);
+    await connectDatabase();
+    console.log('Connected to MongoDB for seeding:', getDatabaseUri());
     await Promise.all([
         User.deleteMany({}),
         Team.deleteMany({}),
