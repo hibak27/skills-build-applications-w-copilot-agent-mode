@@ -1,20 +1,23 @@
 import { useEffect, useState } from 'react';
-import { apiBase } from '../App.jsx';
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
   const [error, setError] = useState(null);
+  const apiUrl = import.meta.env.VITE_CODESPACE_NAME
+    ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/workouts`
+    : 'http://localhost:8000/api/workouts';
 
   useEffect(() => {
-    fetch(`${apiBase}/workouts`)
+    fetch(apiUrl)
       .then((res) => res.json())
       .then((data) => setWorkouts(Array.isArray(data.data) ? data.data : []))
       .catch((err) => setError(err.message || 'Failed to load workouts'));
-  }, []);
+  }, [apiUrl]);
 
   return (
     <div className="container py-4">
       <h2>Workouts</h2>
+      <p className="text-muted">Endpoint: {apiUrl}</p>
       {error && <div className="alert alert-danger">{error}</div>}
       {workouts.map((workout) => (
         <div key={workout._id} className="card mb-3">
